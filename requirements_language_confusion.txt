@@ -1,4 +1,12 @@
+# Core dependencies
 fasttext==0.9.2
+
+# Chinese tokenization (optional)
 jieba>=0.42.1
+
+# Japanese tokenization (optional)
 fugashi>=1.2.0
-unidic>=1.0.8 
+unidic>=1.0.8
+
+# Additional language support
+regex>=2023.0.0 
