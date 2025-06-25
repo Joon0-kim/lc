@@ -102,6 +102,22 @@ print(f"감지된 언어: {detected_lang}")
 # 문자 분포 분석
 char_scores = calculator.detect_language_characters(text)
 print(f"문자 분포: {char_scores}")
+
+### 종합 스코어 사용
+
+```python
+calculator = LanguageConfusionCalculator()
+
+# 모든 종합 스코어 계산
+all_scores = calculator.calculate_all_scores(response, 'ko')
+print(f"가중 평균 종합 스코어: {all_scores['comprehensive_score']:.3f}")
+print(f"단순 평균 종합 스코어: {all_scores['simple_comprehensive_score']:.3f}")
+print(f"최대값 종합 스코어: {all_scores['max_comprehensive_score']:.3f}")
+
+# 개별 스코어 계산
+metrics = calculator.calculate_language_confusion(response, 'ko')
+comprehensive_score = calculator.calculate_comprehensive_score(metrics, 'ko')
+print(f"종합 스코어: {comprehensive_score:.3f}")
 ```
 
 ## 반환되는 메트릭
@@ -129,6 +145,19 @@ print(f"문자 분포: {char_scores}")
   - `language_confusion_score`: 언어 혼동 점수 (1 - line_pass_rate)
   - `overall_accuracy`: 전체 정확도
   - `language_confidence`: 전체 언어 신뢰도
+  - `comprehensive_score`: 가중 평균 기반 종합 스코어
+  - `simple_comprehensive_score`: 단순 평균 기반 종합 스코어
+  - `max_comprehensive_score`: 최대값 기반 종합 스코어
+
+### 종합 스코어 (`calculate_all_scores`)
+
+모든 종합 스코어를 한 번에 계산하는 기능:
+
+- `comprehensive_score`: 가중 평균 기반 종합 스코어 (권장)
+  - Line Accuracy: 40%, Language Confidence: 30%, Line Pass Rate: 20%, Word Pass Rate: 10%
+- `simple_comprehensive_score`: 단순 평균 기반 종합 스코어
+- `max_comprehensive_score`: 최대값 기반 종합 스코어
+- `language_confusion_score`: 기존 혼동 스코어
 
 ## 테스트 실행
 

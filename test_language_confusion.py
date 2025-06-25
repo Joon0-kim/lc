@@ -183,10 +183,52 @@ def test_character_detection():
         if score > 0:
             print(f"  {lang}: {score:.3f}")
 
+def test_comprehensive_scores():
+    """종합 스코어 테스트"""
+    print("\n=== 종합 스코어 테스트 ===")
+    
+    calculator = LanguageConfusionCalculator()
+    
+    test_cases = [
+        {
+            'name': '완벽한 한국어',
+            'response': "안녕하세요.\n오늘 날씨가 정말 좋네요.\n내일도 좋은 하루 되세요.",
+            'lang': 'ko'
+        },
+        {
+            'name': '혼합 언어 (한국어 + 영어)',
+            'response': "안녕하세요.\n오늘 날씨가 정말 좋네요.\nI hope you have a great day!\n내일도 좋은 하루 되세요.",
+            'lang': 'ko'
+        },
+        {
+            'name': '완전히 잘못된 언어',
+            'response': "Hello there!\nThe weather is beautiful today.\nI hope you have a wonderful day.\nSee you tomorrow!",
+            'lang': 'ko'
+        }
+    ]
+    
+    for case in test_cases:
+        print(f"\n--- {case['name']} ---")
+        print(f"응답: {case['response']}")
+        
+        # 모든 스코어 계산
+        all_scores = calculator.calculate_all_scores(case['response'], case['lang'])
+        
+        print("스코어 결과:")
+        print(f"  종합 스코어 (가중 평균): {all_scores['comprehensive_score']:.3f}")
+        print(f"  단순 종합 스코어: {all_scores['simple_comprehensive_score']:.3f}")
+        print(f"  최대 종합 스코어: {all_scores['max_comprehensive_score']:.3f}")
+        print(f"  기존 혼동 스코어: {all_scores['language_confusion_score']:.3f}")
+        
+        # 상세 분석
+        detailed = calculator.analyze_response(case['response'], case['lang'])
+        print(f"  상세 분석 종합 스코어: {detailed['summary']['comprehensive_score']:.3f}")
+
 if __name__ == "__main__":
     test_basic_usage()
     test_supported_languages()
     test_detailed_analysis()
     test_edge_cases()
     test_language_detection()
-    test_character_detection() 
+    test_character_detection()
+    test_comprehensive_scores() 
